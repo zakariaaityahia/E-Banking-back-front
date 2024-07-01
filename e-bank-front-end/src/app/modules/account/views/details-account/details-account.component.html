@@ -1,0 +1,99 @@
+<div class="mt-3 d-flex justify-content-start">
+  <div class="col col-md-6">
+    <div class="card-header">
+      Details Account
+    </div>
+    <div class="card-body">
+    <div class="row mt-2">
+      <label>Account Id :</label>
+      <span>{{ currentAccount.id }}</span>
+    </div>
+    <div class="row mt-2">
+      <label>Balance :</label>
+      <span>{{ currentAccount.balance | number : '1.2-2' }}</span>
+    </div>
+    <div class="row mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (currentAccount.accountOperations && currentAccount.accountOperations.length > 0) {
+            @for (operation of currentAccount.accountOperations; track $index) {
+              <tr>
+                <td>{{ operation.id }}</td>
+                <td>{{ operation.operationDate | date : 'dd/MM/yyyy HH-mm-ss' }}</td>
+                <td>{{ operation.type }}</td>
+                <td>{{ operation.amount }}</td>
+                <td>{{ operation.description }}</td>
+              </tr>
+            }
+          }
+          @else {
+            <tr>
+              <td colspan="5">There are no Data Available</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <ul class="nav nav-pills">
+        <li
+          (click)="goToPage(page)" class="me-2"
+          *ngFor="let item of [].constructor(currentAccount.totalPages); let page = index"
+        >
+          <a
+            class="btn btn-sm"
+            [ngClass]="page == currentPage ? 'btn-info' : 'btn-outline-info'"
+          >
+            {{ page }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div class="col col-md-5">
+    <div class="card">
+      <div class="card-header">Operations</div>
+      <div class="card-body">
+        <form [formGroup]="formOperation" (ngSubmit)="saveOperation()">
+          <div class="mb-3">
+            <div class="form-check form-check-inline">
+              <label class="form-check-label" for="debit">DEBIT</label>
+              <input class="form-check-input" id="debit" type="radio" formControlName="operationType" value="DEBIT">
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label" for="credit">CREDIT</label>
+              <input class="form-check-input" ID="credit" type="radio" formControlName="operationType" value="CREDIT">
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label" for="transver">TRANSVER</label>
+              <input class="form-check-input" ID="transver" type="radio" formControlName="operationType" value="TRANSVER">
+            </div>
+          </div>
+          <div class="mb-3" *ngIf="formOperation.controls['operationType'].value == 'TRANSVER'">
+            <label class="form-label">Account Destination</label>
+            <input type="text" formControlName="accountDestination" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input type="text" formControlName="amount" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" formControlName="description" class="form-control">
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary">Save Operation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
