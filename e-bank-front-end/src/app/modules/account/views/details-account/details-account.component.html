@@ -61,7 +61,7 @@
   <div class="col col-md-5">
     <div class="card">
       <div class="card-header">Operations</div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="authService.roles.includes('ADMIN')">
         <form [formGroup]="formOperation" (ngSubmit)="saveOperation()">
           <div class="mb-3">
             <div class="form-check form-check-inline">

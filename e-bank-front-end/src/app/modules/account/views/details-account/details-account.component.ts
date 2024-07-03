@@ -3,6 +3,7 @@ import {Account} from "../../model/account";
 import {AccountService} from "../../services/account.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {AuthService} from "../../../../services/auth.service";
 
 @Component({
   selector: 'app-details-account',
@@ -21,6 +22,7 @@ export class DetailsAccountComponent implements OnInit {
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
+    public authService:AuthService
   ) {
     this.formOperation = this.formBuilder.group({
       operationType: null,

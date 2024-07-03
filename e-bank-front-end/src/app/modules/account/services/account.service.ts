@@ -3,6 +3,7 @@ import {config} from "../../../../config";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Account} from "../model/account";
 import {Observable} from "rxjs";
+import {AuthService} from "../../../services/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {Observable} from "rxjs";
 export class AccountService {
   private API_URL: string = `${config.endPoint}accounts/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public authService: AuthService) { }
 
   public getById(id: string, page: number, size: number): Observable<Account> {
     const httpParams: HttpParams = new HttpParams()
